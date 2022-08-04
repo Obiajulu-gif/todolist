@@ -1,0 +1,44 @@
+<%- include("header")-%>
+
+<body>
+
+  <div class="box" id="heading">
+    <!-- check if it is a kindOfDay is weeekend -->
+    <% if (kindOfDay === "Saturday" || kindOfDay === "Sunday"){ %>
+    <h1 style="color: purple"><%= preference  %> </h1>
+    <h1 style="color: purple"><%= fullDate  %> </h1>
+
+    <!--check if it is kindOfDay is weekday  -->
+    <% }else{ %>
+    <h1 style="color: white"><%= preference  %> </h1>
+    <h1 style="color: white"><%= fullDate  %> </h1>
+
+    <% } %>
+  </div>
+  <div class="box">
+    <ul>
+      <%# this tend to loop through a list and print our it values %>
+      <%  newItem.forEach((item) => {%>
+      <form action="/delete" method="post">
+        <div class="item">
+          <!-- this submit to our delete route using the this.form.submit()
+                then, we get the values of the item _id from our database and
+                render it as a key/pair value, whereby the name=(key) and value=(item._id) to the route-->
+          <input type="checkbox" name="checkbox" value="<%=item._id%>" onchange="this.form.submit()">
+          <p><%=item.name %></p>
+            <!--this enable us to create another key/pair value when the form is submitted to our server -->
+            <!-- also remember to close it off with a input tag -->
+          <input type="hidden" name="listName" value="<%= preference%>"></input>
+      </form>
+      </div>
+      <%});%>
+    </ul>
+    <form class="item" action="/" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off" autofocus>
+      <!-- we give the button a name and value (which is dynamic)
+      so that we can get it's key:pair values in our server -->
+      <button class="submit" type="submit" name="list" value=<%= preference %>>+</button>
+    </form>
+  </div>
+</body>
+<%- include("footer") -%>
